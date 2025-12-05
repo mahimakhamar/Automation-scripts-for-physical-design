@@ -1,0 +1,8 @@
+#Reference file - temp.rpt
+
+ajay manager account 45000
+sunil clerk account 25000
+varun manager sales 20000
+
+--> pritn name and salary
+-- awk '{print $1,$4}' temp.rpt
