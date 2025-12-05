@@ -4,5 +4,11 @@ ajay manager account 45000
 sunil clerk account 25000
 varun manager sales 20000
 
---> pritn name and salary
+--> print name and salary
 -- awk '{print $1,$4}' temp.rpt
+
+--> output 
+ajay 45000
+sunil 25000
+varun 20000
+
