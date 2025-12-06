@@ -3,12 +3,95 @@
 ajay manager account 45000
 sunil clerk account 25000
 varun manager sales 20000
+vijay teacher salary 15000
+nilay builder salary 20000
 
 --> print name and salary
--- awk '{print $1,$4}' temp.rpt
+1) awk '{print $1,$4}' temp.rpt
 
 --> output 
 ajay 45000
 sunil 25000
 varun 20000
+vijay 15000
+nilay 20000
 
+--> print from line 3 to 5 
+2) awk 'NR==3,NR==6{print NR,$0}' temp.rpt
+
+--> output
+varun manager sales 20000
+vijay teacher salary 15000
+nilay builder salary 20000
+
+--> print serching patten with number money coloum
+3) awk '/manager/{print $2,$4}' temp.rpt
+
+--> output
+manager 45000
+manager 20000
+
+--> replace matching pattern with diff pattern globally
+4) sed 's/manager/clerk/g' temp.rpt
+
+--> output
+ajay clerk account 45000
+sunil clerk account 25000
+varun clerk sales 20000
+vijay teacher salary 15000
+nilay builder salary 20000
+
+--> print only replace lines 
+5) sed -n 's/manager/clerk/p' temp.rpt
+
+--> output
+ajay clerk account 45000
+varun clerk sales 20000
+
+--> delete patternmatching lines
+6) sed '/teacher/d' temp.rpt
+
+--> output 
+ajay manager account 45000
+sunil clerk account 25000
+varun manager sales 20000
+nilay builder salary 20000
+
+--> how multiple lines convert to single line 
+7) paste -d '' -s temp.rpt --> oneline_temp.rpt
+
+--> output
+ajay manager account 45000 sunil clerk account 25000 varun manager sales 20000 vijay teacher salary 15000 nilay builder salary 20000
+
+--> space convert to next line 
+8) sed 's/\s\+/\n/g' temp.rpt
+
+--> ref_file 
+
+ajay manager account 45000 sunil clerk account 25000 varun manager sales 20000 vijay teacher salary 15000 nilay builder salary 20000
+
+--> output 
+ajay manager account 45000
+sunil clerk account 25000
+varun manager sales 20000
+vijay teacher salary 15000
+nilay builder salary 20000
+
+--> how to add text at end od each line
+9) awk '{print $0 "  = done "}' temp.rpt
+
+--> output
+ajay manager account 45000 = done
+sunil clerk account 25000 = done
+varun manager sales 20000 = done
+vijay teacher salary 15000 = done
+nilay builder salary 20000 = done
+
+--> how to add text at start of each line
+10) awk '{print "done = " $0}' temp.rpt
+--> output 
+done = ajay manager account 45000
+done = sunil clerk account 25000
+done = varun manager sales 20000
+done = vijay teacher salary 15000
+done = nilay builder salary 20000
