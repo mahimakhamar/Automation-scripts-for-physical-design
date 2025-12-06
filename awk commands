@@ -95,3 +95,25 @@ done = sunil clerk account 25000
 done = varun manager sales 20000
 done = vijay teacher salary 15000
 done = nilay builder salary 20000
+
+--> ref file --? temp.rpt
+how are You 
+let me know if you need any help
+i will let you know if any help you need but thanks alot for asking me
+sorry what about food
+let me ask that
+so for YOU also
+
+--> grep command search pattern in respective of case sensitive
+11) grep -i "You" temp.rpt
+
+--> output
+how are You 
+let me know if you need any help
+i will let you know if any help you need but thanks alot for asking me
+so for YOU also
+
+--> display file name that matches the patten
+12) grep -l "you" temp.rpt
+
+
