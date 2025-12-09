@@ -3,12 +3,49 @@
 slack   path_group      start_point                end_point         clk        cell_count      cell_without_buff/inv
 -100    reg2reg         a_b_c/clk                  x_y_z/d           clk1        25                     21
 -90     reg2reg         a1_b1_c1/clk               x1_y1_z1/d        clk1        24                     23
--80     reg2reg         a2_b2_c2/clk               x2_y2_z2/d        clk1        23                    22
+-80     reg2reg         a2_b2_c2/clk               x2_y2_z2/d        clk2        23                    22
 -75     reg2reg         a3_b3_c3/clk               x3_y3_z3/d        clk1        20                     13
--72     reg2reg         a4_b4_c4/clk               x4_y4_z4/d        clk1        19                     15
+-72     reg2reg         a4_b4_c4/clk               x4_y4_z4/d        clk2        19                     15
 -70     reg2reg         a5_b5_c5/clk               x5_y5_z5/d        clk1        27                     20
 -78     reg2reg         a6_b6_c6/clk               x6_y6_z6/d        clk1        15                     12
--55     reg2reg         a7_b7_c7/clk               x7_y7_z7/d        clk1        16                     15
+-55     reg2reg         a7_b7_c7/clk               x7_y7_z7/d        clk3        16                     15
 -25     reg2reg         a8_b8_c8/clk               x8_y8_z8/d        clk1        9                       7
 -15     reg2reg         a9_b9_c9/clk               x9_y9_z9/d        clk1        11                     9
+
+--> timing_report.csv
+
+slack,path_group,start_point,end_point,clk,cell_count,cell_without_buff/inv
+-100,reg2reg,a_b_c/clk,x_y_z/d,clk1,25,21
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,24,23
+-80,reg2reg,a2_b2_c2/clk,x2_y2_z2/d,clk2,23,22
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,20,13
+-72,reg2reg,a4_b4_c4/clk,x4_y4_z4/d,clk2,19,15
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,27,20
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,15,12
+-55,reg2reg,a7_b7_c7/clk,x7_y7_z7/d,clk3,16,15
+-25,reg2reg,a8_b8_c8/clk,x8_y8_z8/d,clk1,9,7
+-15,reg2reg,a9_b9_c9/clk,x9_y9_z9/d,clk1,11,9
+
+--> cat  timing_report.csv | grep clk1 |less
+
+--> output
+-100,reg2reg,a_b_c/clk,x_y_z/d,clk1,25,21
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,25,21
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,25,21
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,25,21
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,25,21
+-25,reg2reg,a8_b8_c8/clk,x8_y8_z8/d,clk1,25,21
+-15,reg2reg,a9_b9_c9/clk,x9_y9_z9/d,clk1,25,21
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | less
+
+--> output
+-100,reg2reg,a_b_c/clk,x_y_z/d,clk1,25,21
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,25,21
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,25,21
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,25,21
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,25,21
+-55,reg2reg,a7_b7_c7/clk,x7_y7_z7/d,clk3,25,21
+-25,reg2reg,a8_b8_c8/clk,x8_y8_z8/d,clk1,25,21
+-15,reg2reg,a9_b9_c9/clk,x9_y9_z9/d,clk1,25,21
 
