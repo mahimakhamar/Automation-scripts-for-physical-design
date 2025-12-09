@@ -49,3 +49,105 @@ slack,path_group,start_point,end_point,clk,cell_count,cell_without_buff/inv
 -25,reg2reg,a8_b8_c8/clk,x8_y8_z8/d,clk1,25,21
 -15,reg2reg,a9_b9_c9/clk,x9_y9_z9/d,clk1,25,21
 
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | less
+
+--> output
+slack,path_group,start_point,end_point,clk,cell_count,cell_without_buff/inv
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,25,21
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,25,21
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,25,21
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,25,21
+-55,reg2reg,a7_b7_c7/clk,x7_y7_z7/d,clk3,25,21
+
+-> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | less
+
+--> output
+-55,reg2reg,a7_b7_c7/clk,x7_y7_z7/d,clk3,25,21
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,25,21
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,25,21
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,25,21
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,25,21
+slack,path_group,start_point,end_point,clk,cell_count,cell_without_buff/inv
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," -nk1 | less
+--> output 
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,25,21
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,25,21
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,25,21
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,25,21
+-55,reg2reg,a7_b7_c7/clk,x7_y7_z7/d,clk3,25,21
+slack,path_group,start_point,end_point,clk,cell_count,cell_without_buff/inv
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," -nk3 | less
+--> sorting based on 3rd column
+--> output
+-55,reg2reg,a7_b7_c7/clk,x7_y7_z7/d,clk3,25,21
+-70,reg2reg,a5_b5_c5/clk,x5_y5_z5/d,clk1,25,21
+-75,reg2reg,a3_b3_c3/clk,x3_y3_z3/d,clk1,25,21
+-78,reg2reg,a6_b6_c6/clk,x6_y6_z6/d,clk1,25,21
+-90,reg2reg,a1_b1_c1/clk,x1_y1_z1/d,clk1,25,21
+slack,path_group,start_point,end_point,clk,cell_count,cell_without_buff/inv
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | awk -F "," '{if(NR>2) print $1 "\t"
+ $2 "\t\t" $3 }' | less
+--> -F , --> will divide in separate field and NR2 --> skip  first 2 lines
+
+--> output
+-75  reg2reg   a3_b3_c3/clk
+-78  reg2reg   a6_b6_c6/clk
+-90  reg2reg   a1_b1_c1/clk
+
+
+--> ref
+97 -10.632 14
+94 -10.686 40
+93 -10.690 35
+87 -10.813 18
+86 -10.813 42
+71 -12.409 2 
+70 -12.441 43
+66 -12.930 22
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | awk -F "," '{if(NR>2) print $1 "\t"
+ $2 "\t\t" $3 }' | sort -nrk 3 | less 
+
+--> output
+70 -12.441 43
+86 -10.813 42
+94 -10.686 40
+93 -10.690 35 
+66 -12.930 22
+87 -10.813 18   ...so on in this order
+
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | awk -F "," '{if(NR>2) print $1 "\t"
+ $2 "\t\t" $3 }' | sort -nrk 3 | head -n5
+--> first 5 only
+
+--> output
+70 -12.441 43
+86 -10.813 42
+94 -10.686 40
+93 -10.690 35 
+66 -12.930 22
+
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | awk -F "," '{if(NR>2) print $1 "\t"
+ $2 "\t\t" $3 }' | sort -nrk 3 | head -n5 | sort -k2 | less 
+--> sort by 2nd column
+
+--> outputs 
+94 -10.686 40
+93 -10.690 35
+86 -10.813 42
+70 -12.441 43
+66 -12.930 22
+
+--> create new file
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | awk -F "," '{if(NR>2) print $1 "\t"
+ $2 "\t\t" $3 }' | sort -nrk 3 | head -n5 | sort -k2 | tee file2.tcl
+
+--> count 
+--> cat timing_report.csv | grep clk | grep -v clk2 | awk '{if($1>-55) print $0}' | sort -t "," | awk -F "," '{if(NR>2) print $1 "\t"
+ $2 "\t\t" $3 }' | sort -nrk 3 | head -n5 | sort -k2 | tee file2.tcl | wc -l
+5
+
