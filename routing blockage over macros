@@ -1,0 +1,21 @@
+####creating m5 routing blockages over macros  
+
+set MACRO [get_db insts -if {.is_macro== true && .name != *hip1* && .name != *hip2*}]
+
+foreach hardMacro $MACRO {
+        set myBox [get_db $hardMacro .bbox]
+        set macroname [get_db $hardMacro .name]
+    create_route_blockage -layers m5 -rects $myBox -name macro_rb
+  }
+
+
+#####creating m5 routing blockages over macro but 60% block m5 routing
+set MACRO [get_db insts -if {.is_macro== true && .name != *hip1* && .name != *hip2*}]
+
+foreach hardMacro $MACRO {
+        set myBox [get_db $hardMacro .bbox]
+        set macroname [get_db $hardMacro .name]
+    create_route_blockage -layers m5 -rects $myBox -partial 60 -name macro_rb
+  }
+
+        
