@@ -1,0 +1,11 @@
+
+
+set MACRO [get_db insts -if {.is_macro== true && .name != *hip1* && .name != *hip2*}]
+
+foreach hardMacro $MACRO {
+        set myBox [get_db $hardMacro .bbox]
+        set macroname [get_db $hardMacro .name]
+    create_place_blockage -type hard -rects $myBox -name macro_pb
+  }
+
+  
