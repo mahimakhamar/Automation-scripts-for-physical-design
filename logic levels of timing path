@@ -8,10 +8,6 @@ proc get_path_gate_counts {path} {
        set capture_edge [get_db $path .capturing_clock_close_edge_time]
        set launch_edge [get_db $path .launching_clock_open_edge_time]
        set cycles [expr {($capture_edge - $launch_edge) / $period}]   
-       # handeling with flop to latch with time borrowing
-       set time_borrowed [get_db $path .time_borrowed]
-       if { $time_borrowed != "0.0" } { set cycles [expr {$cycles + 0.5}] }
-       if {$cycles == "0"} {set cycles "1"}
        set start_point [get_db $path .launching_point.name]
        set end_point [get_db $path .capturing_point.name]
        set timing_path_points [get_db [get_pins -quiet [get_db $path .timing_points.pin]]]
