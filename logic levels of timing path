@@ -1,0 +1,57 @@
+##############This script will tell us how many logic levels in perticular path inverter buffer start points and endpoints details will be there 
+
+
+proc get_path_gate_counts {path} {
+ 
+       set slack [get_db $path .slack]
+       set period [get_db $path .launching_clock.period]
+       set capture_edge [get_db $path .capturing_clock_close_edge_time]
+       set launch_edge [get_db $path .launching_clock_open_edge_time]
+       set cycles [expr {($capture_edge - $launch_edge) / $period}]   
+       # handeling with flop to latch with time borrowing
+       set time_borrowed [get_db $path .time_borrowed]
+       if { $time_borrowed != "0.0" } { set cycles [expr {$cycles + 0.5}] }
+       if {$cycles == "0"} {set cycles "1"}
+       set start_point [get_db $path .launching_point.name]
+       set end_point [get_db $path .capturing_point.name]
+       set timing_path_points [get_db [get_pins -quiet [get_db $path .timing_points.pin]]]
+       set timing_path_all_cells [get_db [get_db $timing_path_points -if .direction==out] .inst]
+       set timing_path_comb_cells [get_db $timing_path_all_cells -if .is_combinational==true]
+       set timing_path_logic_cells [get_db $timing_path_comb_cells -if {.is_buffer==false&&.is_inverter==false}]
+       set timing_path_bufs_cells [get_db $timing_path_comb_cells -if {.is_buffer==true}]
+       set timing_path_invs_cells [get_db $timing_path_comb_cells -if {.is_inverter==true}]
+       set gates [llength $timing_path_logic_cells]
+       set invs [llength $timing_path_invs_cells]
+       set bufs [llength $timing_path_bufs_cells]
+       set all_cells [expr {$gates + $invs + $bufs}]
+ 
+   # normalized by cycles
+       set norm_gates [expr {$gates / $cycles}]
+       set norm_inv [expr {$invs / $cycles}]
+       set norm_buf [expr {$bufs / $cycles}]
+       set norm_cells [expr {$all_cells / $cycles}]
+       return [list $norm_cells $norm_gates $norm_inv $norm_buf $cycles $slack $start_point $end_point]
+   }
+foreach corner [list nom ] {
+       if {[get_db [get_db analysis_views *max_${corner}*] .name] != ""} {
+          set paths [report_timing -from  clk -to clk] -views [get_db [get_db analysis_views *max_${corner}*] .name] -max_paths 5 -collection]
+           set ch [open logic_levels_paths.tmp w]
+           foreach_in_collection path $paths {
+               puts $ch [get_path_gate_counts $path]
+           }
+           close $ch
+           echo "Cells/Cycle Logic/Cycle Inv/Cycle Buf/Cycle Cycles Slack Startpoint Endpoint" > logic_levels_paths.txt
+           sort -rnk2 logic_levels_paths.tmp >> logic_levels_paths.txt
+           file delete logic_levels_paths.tmp
+       } else { continue }
+   }
+
+
+   ##############################OUTPUTS########################################################
+
+   Cells/Cycle Logic/Cycle Inv/Cycle Buf/Cycle Cycles Slack Startpoint Endpoint
+   24.0 14.0 7.0 3.0 1.0 -127.609 FF1/CP FF2/D
+   24.0 14.0 6.0 4.0 1.0 -139.869 FF3/CP FF4/D
+   27.0 13.0 13.0 1.0 1.0 -121.729 FF4/CP FF5/D
+   26.0 13.0 6.0 7.0 1.0 -139.949 FF6/CP FF8/D
+   26.0 13.0 10.0 3.0 1.0 -125.887 FF7/CP FF9/D
